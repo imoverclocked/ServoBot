@@ -1,0 +1,26 @@
+auto lo eth0 eth0:1 eth0:2
+
+iface lo inet loopback
+iface eth0 inet dhcp
+
+iface eth0:1 inet static
+	address 192.168.0.9
+	netmask 255.255.255.0
+
+iface eth0:2 inet static
+	address 10.36.142.10
+	netmask 255.255.255.0
+
+allow-hotplug eth1
+iface eth1 inet dhcp
+	pre-up ifuse /media/iPhone
+	post-up umount /media/iPhone
+	# address 172.20.10.3
+	# netmask 255.255.255.224
+	# gateway 172.20.10.1
+
+allow-hotplug wlan0
+iface wlan0 inet manual
+wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
+iface default inet dhcp
+iface default inet6 auto

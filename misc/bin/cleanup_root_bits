@@ -1,0 +1,15 @@
+#!/bin/bash
+## Attempts to make image as small as possible once it is read out/compressed
+
+# Cleanup temporary files
+find /var/log -name \*.[0123] -exec rm {} +
+find /var/log -name \*.gz -exec rm {} +
+apt-get clean
+apt-get --purge autoremove
+find /var/lib/apt/lists/ -type f -not -size 0 -exec rm {} +
+find /tmp/ -type f -exec rm {} +
+
+# zero all unused bits on root for better image compression
+dd if=/dev/zero of=/tmp/zero bs=4M
+rm -f /tmp/zero
+

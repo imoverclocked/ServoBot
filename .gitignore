@@ -54,3 +54,6 @@ docs/_build/
 
 # Database
 db.sqlite3
+
+# home stuff
+.bash_history
