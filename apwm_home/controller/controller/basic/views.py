@@ -70,9 +70,10 @@ def set_port(request, port_id, high, low):
 	p.low = int(low)
 	s = get_pwm_sock(request, p.controller.i2c_address)
 	s.sendall("chan %d %d %d\n" % (p.port, p.low, p.high))
-	p.save()
-	l = list( PWMPort.objects.filter( pk=p.id ) )
-	return HttpResponse( serializers.serialize('json',l) )
+	## Avoid saving to sqlite constantly...
+	# p.save()
+	# l = list( PWMPort.objects.filter( pk=p.id ) )
+	return HttpResponse( serializers.serialize('json',[p]) )
 
 def get_port_list(request, controller_id):
 	l = list(
