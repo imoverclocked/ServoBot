@@ -91,7 +91,7 @@ def add_controller(request, description, i2c_bus, i2c_address, frequency):
 	i2c_bus = int(i2c_bus)
 	i2c_address = int(i2c_address)
 	controller = PWMController( description=description, i2c_bus=i2c_bus, i2c_address=i2c_address, frequency=frequency )
-	s = get_pwm_sock(request, p.controller.i2c_address)
+	s = get_pwm_sock(request, controller.i2c_address)
 	controller.save()
 	l = list(PWMController.objects.all())
 	return HttpResponse(serializers.serialize('json', l))
