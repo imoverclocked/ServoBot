@@ -1,0 +1,18 @@
+#!/bin/bash
+
+FREQ=54
+PWM_NAME=Default_PWM
+LAST_PORT=15
+RPI_ADDR=apwm.rpi.placid-haven.net
+
+echo removing controller id 1...
+curl http://$RPI_ADDR/apwm/basic/remove_controller/1 > /dev/null
+echo adding new controller "$PWM_NAME" ...
+curl http://$RPI_ADDR/apwm/basic/add_controller/"$PWM_NAME"/1/40/$FREQ > /dev/null
+echo adding $(( $LAST_PORT + 1 )) ports to controller id 1
+for n in $(seq 0 $LAST_PORT); do
+  curl http://$RPI_ADDR/apwm/basic/add_port/1/$n/83/0 > /dev/null
+done
+
+curl http://$RPI_ADDR/apwm/basic/get_port_list/1
+
